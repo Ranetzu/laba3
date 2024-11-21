@@ -1,5 +1,6 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
+
 
 using namespace std;
 
@@ -143,7 +144,7 @@ class StrategyB : public Strategy {
 
 	void lgota(Human& dolg) {
 
-		cout << dolg.GetDolg()/2 << endl;
+		cout << dolg.GetDolg() / 2 << endl;
 
 	}
 
@@ -174,7 +175,7 @@ int main() {
 	Tarifs& tar = tarif;
 	string name;
 	string vvod;
-	bool answer;
+	int answer;
 	int k = 0;
 	while (menuNum != 6) {
 		menu();
@@ -184,14 +185,26 @@ int main() {
 			cin >> name;
 			mel.AddSecondName(name);
 			cout << mel.GetSecondName() << " " << "have lgot?" << endl;
-			cout << "1 for Yes/0 for No: ";
+			cout << "1 for Yes/2 for No: ";
 			cin >> answer;
-			if (answer = 0) {
-				k = 0;
+			while (true) {
+				if (cin.fail() || (cin.peek() != '\n')) {
+					cout << "Wrong answer." << endl;
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					cout << "1 for Yes/2 for No: ";
+					cin >> answer;
+				}
+				else break;
 			}
-			if (answer = 1) {
+
+			if (answer == 2) {
+				k = 0;
+				}
+			else {
 				k = 1;
 			}
+		
 			syst();
 			break;
 		case 2:
@@ -208,6 +221,8 @@ int main() {
 			}
 			else {
 				cout << "Unknown name." << endl;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
 			context.ExecuteStrategy(mel);
 			syst();
@@ -226,6 +241,8 @@ int main() {
 			break;
 		default:
 			cout << "Unknown number." << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			syst();
 			break;
 		}// end switch
